@@ -56,8 +56,48 @@ void heap_push(Heap* pq, void* data, int priority)
 }
 
 
-void heap_pop(Heap* pq){
+void heap_pop(Heap* pq)
+{
+  //si el monticulo esta vacio
+  if(pq->size == 0)
+  {
+    return;
+  }
+  //mover ultimo elem a raiz
+  pq->heapArray[0] = pq->heapArray[pq->size-1];
+  pq->size--;
 
+  //ajuste
+  int i = 0;
+  while(1)
+    {
+      int hijoIzq = 2 * i + 1;
+      int hijoDer = 2 * i + 2;
+      int hijoMayor = i;
+      
+      //buscar hijo mayor
+      if(hijoIzq < pq->size && pq->heapArray[hijoIzq].priority > pq->heapArray[hijoMayor].priority)
+      {
+        hijoMayor = hijoIzq;
+      }
+
+      if(hijoDer < pq->size && pq->heapArray[hijoDer].priority > pq->heapArray[hijoMayor].priority)
+      {
+        hijoMayor = hijoDer;
+      }  
+
+      if(hijoMayor == i)
+      {
+        break;
+      }
+
+      //intercambiar
+      heapElem temp = pq->heapArray[i];
+      pq->heapArray[i] = pq->heapArray[hijoMayor];
+      pq->heapArray[hijoMayor] = temp;
+
+      i = hijoMayor;
+    }
 }
 
 Heap* createHeap()
