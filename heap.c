@@ -29,7 +29,21 @@ void* heap_top(Heap* pq)
 
 
 
-void heap_push(Heap* pq, void* data, int priority){
+void heap_push(Heap* pq, void* data, int priority)
+{
+  //verificar si el arreglo esta o no lleno
+  if (pq->size == pq->capac)
+  {
+    int newCapac = pq->capac * 2 + 1;
+    pq->heapArray = realloc(pq->heapArray, newCapac * sizeof(heapElem));
+    pq->capac = newCapac;
+  }
+
+  //insertar
+  int i = pq->size;
+  pq->heapArray[i].data = data;
+  pq->heapArray[i].priority = priority;
+  pq->size++;
 
 }
 
